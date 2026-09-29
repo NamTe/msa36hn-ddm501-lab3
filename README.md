@@ -4,9 +4,9 @@
 
 Implement comprehensive testing strategies and CI/CD pipelines for the movie rating prediction system to ensure quality and automate deployment.
 
-**Course:** DDM501 - AI in Production: From Models to Systems  
-**Weight:** 15% of total grade  
-**Duration:** 3 hours (in-class) + 1 week to complete  
+**Course:** DDM501 - AI in Production: From Models to Systems
+**Weight:** 15% of total grade
+**Duration:** 3 hours (in-class) + 1 week to complete
 **Prerequisites:** Lab 1 and Lab 2 completed
 
 ## Learning Objectives

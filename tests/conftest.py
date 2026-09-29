@@ -11,30 +11,33 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.model import MovieRatingModel
 
-
 # =============================================================================
 # API Client Fixtures
 # =============================================================================
+
 
 @pytest.fixture(scope="session")
 def test_client():
     """
     Create a test client for API tests.
-    
+
     Scope: session - created once for all tests
     """
-    return TestClient(app)
+    # Enter the lifespan context so startup loads the model before requests.
+    with TestClient(app) as client:
+        yield client
 
 
 # =============================================================================
 # Model Fixtures
 # =============================================================================
 
+
 @pytest.fixture(scope="session")
 def trained_model():
     """
     Load model once for all tests.
-    
+
     Scope: session - model is loaded once and reused
     """
     try:
@@ -46,6 +49,7 @@ def trained_model():
 # =============================================================================
 # Sample Data Fixtures
 # =============================================================================
+
 
 @pytest.fixture
 def sample_prediction_request():
@@ -95,6 +99,7 @@ def invalid_prediction_requests():
 # =============================================================================
 # Known Test Cases Fixtures
 # =============================================================================
+
 
 @pytest.fixture
 def known_user_movie_pairs():

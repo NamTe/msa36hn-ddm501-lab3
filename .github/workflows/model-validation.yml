@@ -1,0 +1,34 @@
+name: Model Validation
+
+on:
+  push:
+    paths:
+      - 'models/**'
+      - 'pipeline/**'
+
+jobs:
+  validate-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Train model
+        run: python scripts/train_model.py
+
+      - name: Validate model performance
+        run: |
+          python -c "
+          from app.model import MovieRatingModel
+          model = MovieRatingModel()
+          assert model.is_loaded(), 'Model failed to load'
+          print('Model validation passed!')
+          "

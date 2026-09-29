@@ -2,18 +2,19 @@
 FastAPI application for Movie Rating Prediction.
 """
 
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 import logging
 
-from app.config import API_TITLE, API_DESCRIPTION, API_VERSION, MODEL_VERSION
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.config import API_DESCRIPTION, API_TITLE, API_VERSION, MODEL_VERSION
 from app.model import MovieRatingModel
 from app.schemas import (
-    PredictionRequest,
-    PredictionResponse,
-    HealthResponse,
     BatchPredictionRequest,
     BatchPredictionResponse,
+    HealthResponse,
+    PredictionRequest,
+    PredictionResponse,
 )
 
 # Setup logging
@@ -37,7 +38,7 @@ app.add_middleware(
 )
 
 # Global model instance
-model: MovieRatingModel = None
+model: MovieRatingModel | None = None
 
 
 @app.on_event("startup")
@@ -67,12 +68,12 @@ async def root():
 async def health_check():
     """
     Health check endpoint.
-    
+
     Returns the health status of the API and whether the model is loaded.
     """
     return HealthResponse(
         status="healthy" if model and model.is_loaded() else "unhealthy",
-        model_loaded=model is not None and model.is_loaded()
+        model_loaded=model is not None and model.is_loaded(),
     )
 
 
@@ -80,23 +81,23 @@ async def health_check():
 async def predict(request: PredictionRequest):
     """
     Predict movie rating for a user.
-    
+
     Args:
         request: PredictionRequest with user_id and movie_id
-        
+
     Returns:
         PredictionResponse with predicted rating
     """
     if model is None or not model.is_loaded():
         raise HTTPException(status_code=503, detail="Model not loaded")
-    
+
     try:
         rating = model.predict(request.user_id, request.movie_id)
         return PredictionResponse(
             user_id=request.user_id,
             movie_id=request.movie_id,
             predicted_rating=rating,
-            model_version=MODEL_VERSION
+            model_version=MODEL_VERSION,
         )
     except Exception as e:
         logger.error(f"Prediction error: {e}")
@@ -107,30 +108,29 @@ async def predict(request: PredictionRequest):
 async def predict_batch(request: BatchPredictionRequest):
     """
     Predict movie ratings for multiple user-movie pairs.
-    
+
     Args:
         request: BatchPredictionRequest with list of predictions
-        
+
     Returns:
         BatchPredictionResponse with all predicted ratings
     """
     if model is None or not model.is_loaded():
         raise HTTPException(status_code=503, detail="Model not loaded")
-    
+
     try:
         results = []
         for item in request.predictions:
             rating = model.predict(item.user_id, item.movie_id)
-            results.append(PredictionResponse(
-                user_id=item.user_id,
-                movie_id=item.movie_id,
-                predicted_rating=rating,
-                model_version=MODEL_VERSION
-            ))
-        return BatchPredictionResponse(
-            predictions=results,
-            total_count=len(results)
-        )
+            results.append(
+                PredictionResponse(
+                    user_id=item.user_id,
+                    movie_id=item.movie_id,
+                    predicted_rating=rating,
+                    model_version=MODEL_VERSION,
+                )
+            )
+        return BatchPredictionResponse(predictions=results, total_count=len(results))
     except Exception as e:
         logger.error(f"Batch prediction error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -148,4 +148,5 @@ async def model_info():
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
