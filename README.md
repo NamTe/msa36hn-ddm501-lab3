@@ -1,5 +1,7 @@
 # Lab 3: Testing & CI/CD for ML Systems
 
+[![CI Pipeline](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/ci.yml/badge.svg)](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/ci.yml)
+
 ## Overview
 
 Implement comprehensive testing strategies and CI/CD pipelines for the movie rating prediction system to ensure quality and automate deployment.
