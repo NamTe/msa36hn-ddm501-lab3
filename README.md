@@ -3,6 +3,7 @@
 [![CI Pipeline](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/ci.yml/badge.svg)](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/ci.yml)
 [![CD Pipeline](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/cd.yml)
 [![Latest release](https://img.shields.io/github/v/release/NamTe/msa36hn-ddm501-lab3?label=release)](https://github.com/NamTe/msa36hn-ddm501-lab3/releases/latest)
+[![Coverage](https://codecov.io/gh/NamTe/msa36hn-ddm501-lab3/branch/main/graph/badge.svg)](https://codecov.io/gh/NamTe/msa36hn-ddm501-lab3)
 
 ## Overview
 
