@@ -1,6 +1,8 @@
 # Lab 3: Testing & CI/CD for ML Systems
 
 [![CI Pipeline](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/ci.yml/badge.svg)](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/ci.yml)
+[![CD Pipeline](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/cd.yml/badge.svg?event=push)](https://github.com/NamTe/msa36hn-ddm501-lab3/actions/workflows/cd.yml)
+[![Latest release](https://img.shields.io/github/v/release/NamTe/msa36hn-ddm501-lab3?label=release)](https://github.com/NamTe/msa36hn-ddm501-lab3/releases/latest)
 
 ## Overview
 
@@ -187,6 +189,71 @@ def test_same_input_same_output(model):
 - Triggered on version tags
 - Builds and pushes Docker image
 - Deploys to staging/production
+
+## Execution Evidence
+
+The screenshots below capture the completed workflows and local deployment.
+The recorded CD run deployed tag **v1.0.1**. The badges above show live workflow
+status and the latest published release; the release badge is not a live check
+of the version running in each environment.
+
+<details open>
+<summary>Passing CI: linting, type checking, tests, and Docker build</summary>
+
+All four CI jobs succeeded, and the run produced one artifact.
+
+![Successful CI workflow with all four jobs passing](screenshoot/pass-ci-workflow.png)
+
+</details>
+
+<details open>
+<summary>Passing CD: image publishing and staging/production deployment (v1.0.1)</summary>
+
+The release workflow successfully built and pushed the image, then deployed to
+staging and production for tag `v1.0.1`.
+
+![Successful CD workflow for release v1.0.1](screenshoot/pass-cd-workflow.png)
+
+</details>
+
+<details open>
+<summary>Passing model-validation workflow</summary>
+
+The model-validation job completed successfully.
+
+![Successful model-validation workflow](screenshoot/model-validation.png)
+
+</details>
+
+<details open>
+<summary>Production deployment approval</summary>
+
+The deployment protection record shows reviewer approval for the production
+environment, with the comment `LGTM`.
+
+![Reviewer approval recorded for production deployment](screenshoot/reviewer-require-to-deploy-to-production.png)
+
+</details>
+
+<details open>
+<summary>Self-hosted runner and deployed containers in Docker Desktop</summary>
+
+Docker Desktop shows `lab3-runner`, `movie-rating-staging`, and
+`movie-rating-production` running. Both application containers use the `v1.0.1`
+image, with staging exposed on port `8001` and production on port `8000`.
+
+![Local runner and staging and production containers](screenshoot/github-runner-in-local-and-staging-production-env.png)
+
+</details>
+
+<details open>
+<summary>CI badge displayed in the repository README</summary>
+
+The captured README displays the CI Pipeline badge with a passing status.
+
+![Passing CI badge in the GitHub README](screenshoot/git-ci-badge.png)
+
+</details>
 
 ## Grading Rubric
 
