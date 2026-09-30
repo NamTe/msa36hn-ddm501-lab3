@@ -130,16 +130,16 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 Complete the following files:
 
 ### Test Files
-- [ ] `tests/unit/test_model.py` - Unit tests for model class
-- [ ] `tests/unit/test_schemas.py` - Schema validation tests
-- [ ] `tests/integration/test_api.py` - API endpoint tests
-- [ ] `tests/data/test_data_quality.py` - Data quality tests
-- [ ] `tests/model/test_model_behavior.py` - Behavioral tests
+- [x] `tests/unit/test_model.py` - Unit tests for model class
+- [x] `tests/unit/test_schemas.py` - Schema validation tests
+- [x] `tests/integration/test_api.py` - API endpoint tests
+- [x] `tests/data/test_data_quality.py` - Data quality tests
+- [x] `tests/model/test_model_behavior.py` - Behavioral tests
 
 ### CI/CD Files
-- [ ] `.github/workflows/ci.yml` - CI pipeline
-- [ ] `.github/workflows/cd.yml` - CD pipeline (BONUS)
-- [ ] `.pre-commit-config.yaml` - Pre-commit hooks
+- [x] `.github/workflows/ci.yml` - CI pipeline
+- [x] `.github/workflows/cd.yml` - CD pipeline (BONUS)
+- [x] `.pre-commit-config.yaml` - Pre-commit hooks
 
 ## Test Types
 
