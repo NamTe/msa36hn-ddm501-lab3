@@ -255,6 +255,17 @@ The captured README displays the CI Pipeline badge with a passing status.
 
 </details>
 
+<details open>
+<summary>Pre-commit hooks during a successful commit</summary>
+
+The commit completed after the applicable standard hooks and pytest passed.
+Black, isort, Flake8, mypy, and the YAML/JSON checks were skipped because no
+matching files were staged in this commit.
+
+![Pre-commit results showing passed and skipped hooks before a successful commit](screenshoot/pre-commit.png)
+
+</details>
+
 ## Grading Rubric
 
 | Criteria | Weight |
