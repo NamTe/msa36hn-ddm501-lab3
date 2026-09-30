@@ -127,6 +127,13 @@ jobs:
       - name: Run tests
         run: pytest tests/ -v --cov=app --cov-report=xml --cov-report=html
 
+      - name: Upload trained model
+        uses: actions/upload-artifact@v4
+        with:
+          name: trained-model
+          path: models/svd_model.pkl
+          if-no-files-found: error
+
       # Upload coverage report (BONUS)
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -149,6 +156,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Download trained model
+        uses: actions/download-artifact@v4
+        with:
+          name: trained-model
+          path: models/
 
       - name: Build Docker image
         run: docker build -t movie-rating-api:test .

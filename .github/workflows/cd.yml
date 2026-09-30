@@ -26,6 +26,7 @@ jobs:
     name: Build and Push Docker Image
     permissions:
       contents: write
+      actions: read
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +34,30 @@ jobs:
         uses: actions/checkout@v4
 
       # Set up Docker Buildx
+      - name: Find successful CI run for this commit
+        id: ci
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          COMMIT_SHA=$(git rev-parse HEAD)
+          RUN_ID=$(gh api --method GET "repos/$GH_REPO/actions/workflows/ci.yml/runs" \
+            -f head_sha="$COMMIT_SHA" -f event=push -f status=success \
+            --jq '.workflow_runs[0].id // empty')
+          if [ -z "$RUN_ID" ]; then
+            echo "No successful CI run for $COMMIT_SHA. Wait for branch CI to pass, then retry CD."
+            exit 1
+          fi
+          echo "run-id=$RUN_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Download model trained by CI
+        uses: actions/download-artifact@v4
+        with:
+          name: trained-model
+          path: models/
+          run-id: ${{ steps.ci.outputs.run-id }}
+          github-token: ${{ github.token }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
